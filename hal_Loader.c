@@ -23,8 +23,7 @@ void VMLoader_Reset(void) {vmLoader->re(void);}
 #define MaxPacketSize 11
 #define MemMax 512
 #define MemAllocated  (512+36)
-
-/*public*/ static  u8     memAllocated[MemAllocated];
+/*public*/ //static  u8     memAllocated[MemAllocated];
 
 // To get the base RAM address on a memory segment increment.
 static u8* GetBaseAddr(u8* memAddr, u32 memInc) {
@@ -128,7 +127,7 @@ u8 hal_Loader(u8* mainAddr){
 
             //Override of memory location where program will be written to
             for(i = addr; i < pgm_size; i++){
-                memAllocated[i] = 0; 
+                mainAddr[i] = 0; 
             }
             //mainAddr = &memAllocated[addr]; //Move pointer to designated memory area
             //mainAddr = GetBaseAddr(memAllocated, pgm_size);
@@ -169,9 +168,10 @@ u8 hal_Loader(u8* mainAddr){
         //}else{
             //if(end_addr < pgm_size){
                 for(i = 3; i < size; i++){
-                    memAllocated[end_addr++] = packet[i];
+                    mainAddr[end_addr++] = packet[i];
                 }
-
+                if((end_addr-start_addr) == pgm_size)
+                     mainAddr[end_addr] = 0;
                 Send_Packet(Ack, (void *)0, 0); //Ack to notify current data packet was received successfully
             //}
             
@@ -179,8 +179,9 @@ u8 hal_Loader(u8* mainAddr){
 
             //return Success; 
             break;
-        case Run:
-            //mainAddr = memAllocated;
+        case Run:;
+            u32 p_addr =  (((u32)packet[3] << 24) | ((u32)packet[4] << 16) | ((u32)packet[5] << 8)  | (u32)packet[6] );
+            //mainAddr = &memAllocated[p_addr];
             // Send an Ack to tell the Host command was received successfully & code is now running
             Send_Packet(Ack, (void *)0, 0);
             return Success; 

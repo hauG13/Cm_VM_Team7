@@ -28,7 +28,7 @@ static void DisplayBanner() {
 
 #define MemMax 512
 
- u8    mem[MemMax];
+static u8    mem[MemMax];
 
 int main() {
     u8 status;
