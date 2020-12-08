@@ -10,12 +10,12 @@ Akhilesh Warty
 Test files and informations:
 
 Task0_AUnit:
-  -Only contains Aunit executable built/ported to be used for Task1
+  - Only contains Aunit executable built/ported to be used for Task1
   
 Task1_Host_VM_Port: 
-  -cm executable along with the given Test Suite of 12 precompiled programs. 
-  -runCodePatterns.bat: script to run the precompiled tests against the host port of the Cm VM and validated with Aunit
-  -source code of vm port on host. Ported on Windows using gcc and conditional compilation flag -D ConsoleOutputWithPrintf
+  - cm executable along with the given Test Suite of 12 precompiled programs. 
+  - runCodePatterns.bat: script to run the precompiled tests against the host port of the Cm VM and validated with Aunit
+  - source code of vm port on host. Ported on Windows using gcc and conditional compilation flag -D ConsoleOutputWithPrintf
 
 Task3_Tests_Files:
   - .hex bsl/hal implementation test files mainly for VM Operand Stack & console output 
