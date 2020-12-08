@@ -9,7 +9,8 @@
 /* Converts 32-bit unsigned integer to a buffer. Base is 16 by default. */
 void bsl_utoa(u32 n, char* buf, i8 next, u8 base) {
     u32  r, f;
-    
+    bool foundNonzero = false;
+
     if (base == 10)
         f = 1000000000L;
     else if (base == 16)
@@ -20,13 +21,22 @@ void bsl_utoa(u32 n, char* buf, i8 next, u8 base) {
     }
 
     if (n == 0) {
-        while(next < base/2){buf[next++] = '0';}
+       if(base == 16) 
+            while(next < base/2){buf[next++] = '0';}
+        else
+        {
+            buf[next++] = '0';
+        }
+        
     } else {
         while (f > 0) {
             r = n / f;
-            if (base == 10)
-                buf[next++] = (char)(r+'0');
-            else
+            if (base == 10){
+                if (foundNonzero || r > 0) {
+                    buf[next++] = (char)(r+'0');
+                    foundNonzero = true;
+                }
+            }else
                 buf[next++] = (char)(r >= 10 ? r-10+'A': r+'0');
             n -= r * f;
             f /= base;
